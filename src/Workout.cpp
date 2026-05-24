@@ -17,3 +17,5 @@ std::string Workout::getSummary() const {
 std::string Workout::getDate() const { return date; }
 int Workout::getDuration() const { return durationMin; }
 std::string Workout::getNotes() const { return notes; }
+
+void Workout::setNotes(const std::string& n) { notes = n; }

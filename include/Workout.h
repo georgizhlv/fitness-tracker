@@ -20,4 +20,5 @@ public:
     std::string getDate() const;
     int getDuration() const;
     std::string getNotes() const;
+    void setNotes(const std::string& n);
 };
