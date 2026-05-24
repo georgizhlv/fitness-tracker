@@ -1,0 +1,5 @@
+fitness_tracker
+fitness_tracker.exe
+*.o
+*.out
+workout_history.txt
