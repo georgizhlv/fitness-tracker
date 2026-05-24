@@ -12,6 +12,7 @@ public:
     User(const std::string& name, double weight, double height, const std::string& goal);
 
     double getBMI() const;
+    std::string getBMICategory() const;
     std::string getProfile() const;
 
     std::string getName() const;

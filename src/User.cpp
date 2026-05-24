@@ -10,13 +10,21 @@ double User::getBMI() const {
     return weight / (hm * hm);
 }
 
+std::string User::getBMICategory() const {
+    double bmi = getBMI();
+    if (bmi < 18.5) return "Поднормено тегло";
+    if (bmi < 25.0) return "Нормално тегло";
+    if (bmi < 30.0) return "Наднормено тегло";
+    return "Затлъстяване";
+}
+
 std::string User::getProfile() const {
     std::ostringstream oss;
     oss << std::fixed << std::setprecision(1);
     oss << "Потребител: " << name << "\n"
         << "  Тегло: " << weight << " кг\n"
         << "  Ръст:  " << height << " см\n"
-        << "  BMI:   " << getBMI() << "\n"
+        << "  BMI:   " << getBMI() << " (" << getBMICategory() << ")\n"
         << "  Цел:   " << goal;
     return oss.str();
 }
