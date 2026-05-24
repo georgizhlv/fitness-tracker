@@ -1,6 +1,13 @@
 #include "FitnessTracker.h"
+#include "CardioWorkout.h"
+#include "StrengthWorkout.h"
+#include "YogaWorkout.h"
+#include "SwimmingWorkout.h"
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
 
 FitnessTracker::FitnessTracker(const User& user, const WorkoutGoal& goal)
     : user(user), goal(goal) {}
@@ -13,6 +20,26 @@ FitnessTracker::~FitnessTracker() {
 void FitnessTracker::addWorkout(Workout* w) {
     history.push_back(w);
     std::cout << "Тренировката е добавена: " << w->getSummary() << "\n";
+}
+
+// Функционалност 9: изтриване на тренировка по индекс
+void FitnessTracker::deleteWorkout(int index) {
+    if (index < 1 || index > (int)history.size()) {
+        std::cout << "Невалиден индекс: " << index << "\n";
+        return;
+    }
+    auto it = history.begin() + (index - 1);
+    std::cout << "Изтрита тренировка: " << (*it)->getSummary() << "\n";
+    delete *it;
+    history.erase(it);
+}
+
+// Функционалност 10: сортиране по дата
+void FitnessTracker::sortByDate() {
+    std::sort(history.begin(), history.end(), [](Workout* a, Workout* b) {
+        return a->getDate() < b->getDate();
+    });
+    std::cout << "Историята е наредена по дата.\n";
 }
 
 // Функционалност 3: история на тренировките
@@ -79,4 +106,64 @@ void FitnessTracker::printGoalProgress() const {
         totalMin += w->getDuration();
 
     std::cout << "\n" << goal.getProgress(sessions, totalMin) << "\n";
+}
+
+// Функционалност 11: средни показатели
+void FitnessTracker::printAverageStats() const {
+    if (history.empty()) {
+        std::cout << "Няма данни за средни показатели.\n";
+        return;
+    }
+    int totalMin = 0;
+    double totalCal = 0;
+    for (Workout* w : history) {
+        totalMin += w->getDuration();
+        totalCal += w->calcCalories();
+    }
+    int n = (int)history.size();
+    std::cout << "\n=== Средни показатели ===\n";
+    std::cout << std::fixed << std::setprecision(1);
+    std::cout << "Средна продължителност: " << (double)totalMin / n << " мин\n";
+    std::cout << "Средни калории/тренировка: " << totalCal / n << " ккал\n";
+    std::cout << "=========================\n";
+}
+
+// Функционалност 12: запазване във файл
+void FitnessTracker::saveToFile(const std::string& filename) const {
+    std::ofstream f(filename);
+    if (!f) {
+        std::cout << "Грешка при отваряне на файл: " << filename << "\n";
+        return;
+    }
+    for (Workout* w : history)
+        f << w->getType() << "|" << w->getDate() << "|" << w->getDuration()
+          << "|" << w->getNotes() << "\n";
+    std::cout << "Историята е запазена в " << filename << " (" << history.size() << " записа)\n";
+}
+
+// Функционалност 12: зареждане от файл (прост формат)
+void FitnessTracker::loadFromFile(const std::string& filename) {
+    std::ifstream f(filename);
+    if (!f) {
+        std::cout << "Файлът не е намерен: " << filename << "\n";
+        return;
+    }
+    std::string line;
+    int count = 0;
+    while (std::getline(f, line)) {
+        std::istringstream ss(line);
+        std::string type, date, durStr, notes;
+        if (!std::getline(ss, type, '|')) continue;
+        if (!std::getline(ss, date, '|')) continue;
+        if (!std::getline(ss, durStr, '|')) continue;
+        std::getline(ss, notes);
+        int dur = std::stoi(durStr);
+        Workout* w = nullptr;
+        if (type == "Кардио")    w = new CardioWorkout(date, dur, 0, notes);
+        else if (type == "Сила") w = new StrengthWorkout(date, dur, 0, 0, notes);
+        else if (type == "Йога") w = new YogaWorkout(date, dur, "Hatha", notes);
+        else if (type == "Плуване") w = new SwimmingWorkout(date, dur, 0, notes);
+        if (w) { history.push_back(w); count++; }
+    }
+    std::cout << "Заредени " << count << " тренировки от " << filename << "\n";
 }

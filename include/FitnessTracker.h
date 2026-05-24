@@ -16,9 +16,14 @@ public:
     ~FitnessTracker();
 
     void addWorkout(Workout* w);
+    void deleteWorkout(int index);
+    void sortByDate();
     void printHistory() const;
     void printStats() const;
+    void printAverageStats() const;
     void filterByType(const std::string& type) const;
     void checkGoal() const;
     void printGoalProgress() const;
+    void saveToFile(const std::string& filename) const;
+    void loadFromFile(const std::string& filename);
 };
