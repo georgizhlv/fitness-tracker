@@ -12,8 +12,8 @@ int main() {
     User user("Иван", 80.0, 178.0, "отслабване");
     std::cout << user.getProfile() << "\n\n";
 
-    // Цел: 4 тренировки и поне 150 минути за седмица
-    WorkoutGoal goal(4, 150);
+    // Цел: 4 тренировки, 150 мин и 1000 ккал за седмица
+    WorkoutGoal goal(4, 150, "седмица", 1000.0);
     FitnessTracker tracker(user, goal);
 
     std::cout << "=== Добавяне на тренировки ===\n";
@@ -46,6 +46,9 @@ int main() {
     // Функционалност 8: филтриране по вид
     tracker.filterByType("Кардио");
     tracker.filterByType("Плуване");
+
+    // Функционалност 13: разбивка по вид
+    tracker.printCalorieBreakdown();
 
     // Функционалност 12: запазване във файл
     std::cout << "\n";
