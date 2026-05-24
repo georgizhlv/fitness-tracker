@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <map>
 
 FitnessTracker::FitnessTracker(const User& user, const WorkoutGoal& goal)
     : user(user), goal(goal) {}
@@ -84,6 +85,18 @@ void FitnessTracker::filterByType(const std::string& type) const {
     if (!found)
         std::cout << "  Няма тренировки от този тип.\n";
     std::cout << "======================================\n";
+}
+
+// Функционалност 13: разбивка на калории по вид тренировка
+void FitnessTracker::printCalorieBreakdown() const {
+    std::map<std::string, double> byType;
+    for (Workout* w : history)
+        byType[w->getType()] += w->calcCalories();
+    std::cout << "\n=== Калории по вид тренировка ===\n";
+    std::cout << std::fixed << std::setprecision(0);
+    for (auto& kv : byType)
+        std::cout << "  " << kv.first << ": " << kv.second << " ккал\n";
+    std::cout << "=================================\n";
 }
 
 // Функционалност 7: известяване при постигната цел

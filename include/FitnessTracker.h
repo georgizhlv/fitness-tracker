@@ -22,6 +22,7 @@ public:
     void printStats() const;
     void printAverageStats() const;
     void filterByType(const std::string& type) const;
+    void printCalorieBreakdown() const;
     void checkGoal() const;
     void printGoalProgress() const;
     void saveToFile(const std::string& filename) const;
