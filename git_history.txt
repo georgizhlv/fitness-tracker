@@ -1,0 +1,15 @@
+4ba1f2a feat: add setNotes() mutator to Workout base class
+e258c28 feat: demo calorie goal and breakdown in main.cpp
+3b28dbd feat: add printCalorieBreakdown grouped by workout type
+619b530 feat: add optional calorie target to WorkoutGoal
+296fc54 chore: add .gitignore to exclude build artifacts
+93a1bc2 feat: update main.cpp to demonstrate all 12 functionalities
+6f70c67 build: add PowerShell build script for Windows
+6a90886 feat: implement SwimmingWorkout as 4th workout type
+b0a4ac1 feat: add BMI category classification to User profile
+ba55e30 feat: add deleteWorkout, sortByDate, average stats, and file persistence
+0e52f6c docs: add README with build instructions and design notes
+b0cac08 feat: implement FitnessTracker (history, stats, filter, goal tracking)
+32f01f1 feat: implement User profile and WorkoutGoal tracking
+9483f78 feat: implement Workout class hierarchy (Cardio, Strength, Yoga)
+ab1da29 feat: add class headers (Workout hierarchy, User, WorkoutGoal, FitnessTracker)
